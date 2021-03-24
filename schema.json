@@ -1,0 +1,58 @@
+{
+    "$id": "src/addresses/schema.json",
+    "address":{
+        "type": "object",
+        "properties": {
+            "id": { "type": "string"},
+            "description": { "type": "string" },
+            "recipientName": { "type": "string" },
+            "recipientSurname": { "type": "string" },
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "code": { "type": "number", "format": "int64", "minimum": 0, "maximum": 99999 },
+            "district": { "type": "string", "minLength": 2, "maxLength": 2}
+        }
+    },
+    "addresses": {
+        "type": "array",
+        "items": { "$ref": "#/address" },
+        "uniqueItems": true
+    },
+    "insertAddress": {
+        "allOf" : [
+            { "$ref": "#/address" },
+            {
+                "required": ["description", "address", "city", "code", "district"]
+            }
+        ]
+    },
+    "editAddress": {
+        "allOf" : [
+            { "$ref": "#/address" },
+            {
+                "required": ["id"]
+            }
+        ]
+    },
+    "responseAddresses": {
+        "allOf" : [
+            { "$ref": "../utils/schema.json#/response" },
+            {
+                "properties": {
+                    "data": { "$ref": "#/addresses" }
+                }
+            }
+        ]
+    },
+    "responseAddress": {
+        "allOf" : [
+            { "$ref": "../utils/schema.json#/response" },
+            {
+                "properties": {
+                    "data": { "$ref": "#/address" }
+                }
+            }
+        ]
+
+    }
+}

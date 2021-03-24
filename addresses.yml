@@ -1,0 +1,133 @@
+get:
+  summary: Richiesta lista di tutti gli indirizzi dell'utente autenticato
+  description: Ritorna l'elenco di tutti gli indirizzi dell'utente
+  tags:
+    - addresses
+  operationId: getAddresses
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: "elenco di tutte gli indirizzi"
+      content:
+        application/json:
+          schema:
+            $ref: "schema.json#/responseAddresses"
+          example:
+            {
+              status: "success",
+              data:
+                [
+                  {
+                    id: 1,
+                    description: "Indirizzo Casa",
+                    recipientName: "Mario",
+                    recipientSurname: "Rossi",
+                    address: "Via Roma 12/A",
+                    city: "Padova",
+                    code: "35100",
+                    district: "PD",
+                  },
+                  {
+                    id: 2,
+                    description: "Indirizzo Ufficio",
+                    recipientName: "Mario",
+                    recipientSurname: "Rossi",
+                    address: "Via Paolotti 12/A",
+                    city: "Treviso",
+                    code: "35101",
+                    district: "TV",
+                  },
+                  {
+                    id: 3,
+                    description: "Indirizzo Bar",
+                    recipientName: "Andrea",
+                    recipientSurname: "Giallo",
+                    address: "Via Luzzati 12/A",
+                    city: "Verona",
+                    code: "35130",
+                    district: "VR",
+                  },
+                ],
+            }
+
+post:
+  summary: Inserimento indirizzo
+  description: API per la raccolta dei dati che formano un indirizzo di spedizione e/o fatturazione
+  operationId: insertAddress
+  tags:
+    - addresses
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "schema.json#/insertAddress"
+        example:
+          {
+            description: "Indirizzo Bar",
+            recipientName: "Andrea",
+            recipientSurname: "Giallo",
+            address: "Via Luzzati 12/A",
+            city: "Verona",
+            code: "35130",
+            district: "VR",
+          }
+
+  responses:
+    200:
+      description: Indirizzo inserito con successo
+      content:
+        application/json:
+          schema:
+            $ref: "../utils/schema.json#/response"
+          example:
+            { status: "success", message: "indirizzo inserito con successo" }
+    400:
+      description: Errore inserimento indirizzo
+      content:
+        application/json:
+          schema:
+            $ref: "../utils/schema.json#/response"
+          example: { status: "error", message: "valori inseriti non corretti" }
+
+patch:
+  summary: Aggiorna uno dei campi dell'indirizzo
+  description: Aggiorna uno dei campi dell'indirizzo
+  tags:
+    - addresses
+  operationId: updateAddress
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "schema.json#/editAddress"
+        example: { id: 3, description: "Indirizzo casa la mare" }
+  responses:
+    200:
+      description: "Indirizzo Aggiornata"
+      content:
+        application/json:
+          schema:
+            $ref: "../utils/schema.json#/response"
+          example: { status: "success", message: "indirizzo aggiornata" }
