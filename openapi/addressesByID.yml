@@ -1,0 +1,125 @@
+get:
+  summary: Ritorna un indirizzo
+  description: Ritorna un specifico indirizzo dell'utente dall'ID passato tramite path param
+  tags:
+    - addresses
+  operationId: getAddress
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+  responses:
+    200:
+      description: "indirizzo ritornato"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/addresses.json#/responseAddress"
+          example:
+            {
+              status: "success",
+              data:
+              { 
+                id: "1",
+                description: "Indirizzo Casa",
+                recipientName: "Mario",
+                recipientSurname: "Rossi",
+                address: "Via Roma 12/A",
+                city: "Padova",
+                code: "35100",
+                district: "PD"},
+            }
+    400:
+      description: "indirizzo non ritornato"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "richiesta fallita" }
+
+patch:
+  summary: Aggiorna uno dei campi dell'indirizzo
+  description: Aggiorna uno dei campi dell'indirizzo
+  tags:
+    - addresses
+  operationId: updateAddress
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/addresses.json#/editAddress"
+        example: { id: "3", description: "Indirizzo casa la mare" }
+  responses:
+    200:
+      description: "Indirizzo Aggiornata"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "indirizzo aggiornata" }
+    400:
+      description: "errore nella richiesta"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "richiesta fallita" }
+
+delete:
+  summary: Rimozione Indirizzo
+  description: Rimuove indirizzo identificato dall'ID passato tramite path param
+  tags:
+    - addresses
+  operationId: removeAddress
+  parameters:
+    - in: header
+      name: Authorization
+      description: token JWT
+      schema:
+        type: string
+      required: true
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+    - in: query
+      name: override
+      schema:
+        type: boolean
+  responses:
+    200:
+      description: "Indirizzo Rimosso"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "success", message: "Indirizzo rimosso" }
+    400:
+      description: Delete error
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "Indirizzo non rimosso" }

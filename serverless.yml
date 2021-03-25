@@ -34,8 +34,6 @@ provider:
 
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
-    DOMAIN_SUFFIX: eml-be
-    CALLBACK_URL: http://localhost:3000
     REGION: ${self:provider.region}
 
   iam:

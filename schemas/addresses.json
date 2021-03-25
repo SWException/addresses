@@ -1,5 +1,5 @@
 {
-    "$id": "src/addresses/schema.json",
+    "$id": "schemas/addresses.json",
     "address":{
         "type": "object",
         "properties": {
@@ -36,7 +36,7 @@
     },
     "responseAddresses": {
         "allOf" : [
-            { "$ref": "../utils/schema.json#/response" },
+            { "$ref": "response.json#/response" },
             {
                 "properties": {
                     "data": { "$ref": "#/addresses" }
@@ -46,7 +46,7 @@
     },
     "responseAddress": {
         "allOf" : [
-            { "$ref": "../utils/schema.json#/response" },
+            { "$ref": "response.json#/response" },
             {
                 "properties": {
                     "data": { "$ref": "#/address" }

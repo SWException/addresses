@@ -17,14 +17,14 @@ get:
       content:
         application/json:
           schema:
-            $ref: "schema.json#/responseAddresses"
+            $ref: "../schemas/addresses.json#/responseAddresses"
           example:
             {
               status: "success",
               data:
                 [
                   {
-                    id: 1,
+                    id: "1",
                     description: "Indirizzo Casa",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -34,7 +34,7 @@ get:
                     district: "PD",
                   },
                   {
-                    id: 2,
+                    id: "2",
                     description: "Indirizzo Ufficio",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -44,7 +44,7 @@ get:
                     district: "TV",
                   },
                   {
-                    id: 3,
+                    id: "3",
                     description: "Indirizzo Bar",
                     recipientName: "Andrea",
                     recipientSurname: "Giallo",
@@ -52,9 +52,16 @@ get:
                     city: "Verona",
                     code: "35130",
                     district: "VR",
-                  },
-                ],
+                  }
+                ]
             }
+    400:
+      description: "errore nella richiesta"
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/response.json#/response"
+          example: { status: "error", message: "richiesta fallita" }
 
 post:
   summary: Inserimento indirizzo
@@ -74,7 +81,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "schema.json#/insertAddress"
+          $ref: "../schemas/addresses.json#/insertAddress"
         example:
           {
             description: "Indirizzo Bar",
@@ -85,14 +92,13 @@ post:
             code: "35130",
             district: "VR",
           }
-
   responses:
     200:
       description: Indirizzo inserito con successo
       content:
         application/json:
           schema:
-            $ref: "../utils/schema.json#/response"
+            $ref: "../schemas/response.json#/response"
           example:
             { status: "success", message: "indirizzo inserito con successo" }
     400:
@@ -100,34 +106,5 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../utils/schema.json#/response"
+            $ref: "../schemas/response.json#/response"
           example: { status: "error", message: "valori inseriti non corretti" }
-
-patch:
-  summary: Aggiorna uno dei campi dell'indirizzo
-  description: Aggiorna uno dei campi dell'indirizzo
-  tags:
-    - addresses
-  operationId: updateAddress
-  parameters:
-    - in: header
-      name: Authorization
-      description: token JWT
-      schema:
-        type: string
-      required: true
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: "schema.json#/editAddress"
-        example: { id: 3, description: "Indirizzo casa la mare" }
-  responses:
-    200:
-      description: "Indirizzo Aggiornata"
-      content:
-        application/json:
-          schema:
-            $ref: "../utils/schema.json#/response"
-          example: { status: "success", message: "indirizzo aggiornata" }
