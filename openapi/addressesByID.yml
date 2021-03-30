@@ -1,6 +1,6 @@
 get:
-  summary: Ritorna un indirizzo
-  description: Ritorna un specifico indirizzo dell'utente dall'ID passato tramite path param
+  summary: Get an address
+  description: Return the address associated with the specified ID
   tags:
     - addresses
   operationId: getAddress
@@ -46,8 +46,8 @@ get:
           example: { status: "error", message: "richiesta fallita" }
 
 patch:
-  summary: Aggiorna uno dei campi dell'indirizzo
-  description: Aggiorna uno dei campi dell'indirizzo
+  summary: Update address
+  description: Update one or more field of the specified ID
   tags:
     - addresses
   operationId: updateAddress
@@ -87,8 +87,8 @@ patch:
           example: { status: "error", message: "richiesta fallita" }
 
 delete:
-  summary: Rimozione Indirizzo
-  description: Rimuove indirizzo identificato dall'ID passato tramite path param
+  summary: Delete address
+  description: Remove the address with the specified ID
   tags:
     - addresses
   operationId: removeAddress

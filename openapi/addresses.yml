@@ -1,6 +1,6 @@
 get:
-  summary: Richiesta lista di tutti gli indirizzi dell'utente autenticato
-  description: Ritorna l'elenco di tutti gli indirizzi dell'utente
+  summary: Get all addresses
+  description: Return the list of the addresses associated with the authenticated user
   tags:
     - addresses
   operationId: getAddresses
@@ -64,8 +64,8 @@ get:
           example: { status: "error", message: "richiesta fallita" }
 
 post:
-  summary: Inserimento indirizzo
-  description: API per la raccolta dei dati che formano un indirizzo di spedizione e/o fatturazione
+  summary: Insert address
+  description: Insert a new address for the authenticated user
   operationId: insertAddress
   tags:
     - addresses
