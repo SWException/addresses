@@ -4,6 +4,7 @@
         "type": "object",
         "properties": {
             "id": { "type": "string"},
+            "user": {"type": "string"},
             "description": { "type": "string" },
             "recipientName": { "type": "string" },
             "recipientSurname": { "type": "string" },
@@ -22,7 +23,7 @@
         "allOf" : [
             { "$ref": "#/address" },
             {
-                "required": ["description", "address", "city", "code", "district"]
+                "required": ["user", "description", "address", "city", "code", "district"]
             }
         ]
     },

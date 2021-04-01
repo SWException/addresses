@@ -25,6 +25,7 @@ get:
                 [
                   {
                     id: "1",
+                    user: "mario",
                     description: "Indirizzo Casa",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -35,6 +36,7 @@ get:
                   },
                   {
                     id: "2",
+                    user: "mario",
                     description: "Indirizzo Ufficio",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -45,6 +47,7 @@ get:
                   },
                   {
                     id: "3",
+                    user: "mario",
                     description: "Indirizzo Bar",
                     recipientName: "Andrea",
                     recipientSurname: "Giallo",
@@ -84,6 +87,7 @@ post:
           $ref: "../schemas/addresses.json#/insertAddress"
         example:
           {
+            user: "andrea",
             description: "Indirizzo Bar",
             recipientName: "Andrea",
             recipientSurname: "Giallo",
