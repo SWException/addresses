@@ -14,7 +14,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     const MODEL: Model= Model.createModel();
     const ADDRESS: {[key:string]:any}= MODEL.getAddress(ADDRESS_ID)
     if (ADDRESS) {
-    return API_RESPONSES._200(ADDRESS, "success");
+        return API_RESPONSES._200(ADDRESS, "success");
     }
     return API_RESPONSES._400(null, "error", "the address with this id doesn't exist" )
 }

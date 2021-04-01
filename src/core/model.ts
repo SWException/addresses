@@ -45,7 +45,7 @@ export class Model {
         const OBJ = [];
         ADDRESSES.forEach(item => {
             OBJ.push(item)
-            });
+        });
         return JSON.parse(JSON.stringify(OBJ));
     }
 

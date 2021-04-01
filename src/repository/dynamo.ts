@@ -20,7 +20,7 @@ export class Dynamo implements Persistence {
         return false;
     }
 
-    editItem (item: Address): boolean {
+    editItem (item: {[key: string]: any}): boolean {
         // TO-DO for DynamoDB Engineer
         return false;
     }

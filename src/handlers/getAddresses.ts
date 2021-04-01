@@ -14,7 +14,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     const MODEL: Model= Model.createModel();
     const ADDRESSES: {[key:string]:any}= MODEL.getAddresses(TOKEN)
     if (ADDRESSES) {
-    return API_RESPONSES._200(ADDRESSES, "success");
+        return API_RESPONSES._200(ADDRESSES, "success");
     }
     return API_RESPONSES._400(null, "success", "this user has no addresses" )
 }

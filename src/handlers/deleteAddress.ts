@@ -14,7 +14,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     const MODEL: Model= Model.createModel();
     const RESULT: boolean= MODEL.deleteAddress(ADDRESS_ID)
     if (RESULT) {
-    return API_RESPONSES._200(null, "success", " the address has been deleted" );
+        return API_RESPONSES._200(null, "success", " the address has been deleted" );
     }
     return API_RESPONSES._400(null, "error", "the address has not been deleted" )
 }
