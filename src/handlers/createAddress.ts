@@ -14,7 +14,7 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     const ADDRESS = JSON.parse(event?.body);
     
     const MODEL: Model= Model.createModel();
-    const RESULT: Promise<boolean>= MODEL.updateAddress(TOKEN, ADDRESS)
+    const RESULT: Promise<boolean>= MODEL.createAddress(ADDRESS,TOKEN)
     if (RESULT) {
         return API_RESPONSES._200(null, "success", " the address has been updated" );
     }
