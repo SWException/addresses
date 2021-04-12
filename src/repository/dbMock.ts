@@ -2,24 +2,48 @@ import Address from "src/core/address";
 import { Persistence } from "./persistence";
 //TODO
 export class DbMock implements Persistence {
-    private static readonly TAX1 = new Tax("1", 22, "standard");
-    private static readonly TAX2 = new Tax("2", 10, "food & beverage");
-    private static readonly TAX3 = new Tax("3", 4, "primary necessity");
+    private static readonly ADDRESS1 = new Address({id:"1", 
+        user: "pippo", 
+        description: "home", 
+        recipientName: "pippo", 
+        recipientSurname: "pippo", 
+        address: "Via dei Pioppi 1", 
+        city: "Topolinia",
+        code: 6969, 
+        district: "RO"});
+    private static readonly ADDRESS2 = new Address({id:"2", 
+        user: "paperino", 
+        description: "home", 
+        recipientName: "paolino", 
+        recipientSurname: "paperino", 
+        address: "Via dei Salici 69", 
+        city: "Paperopoli",
+        code: 113, 
+        district: "TV"});
+    private static readonly ADDRESS3 = new Address({id:"3", 
+        user: "topolino", 
+        description: "home", 
+        recipientName: "mickey", 
+        recipientSurname: "mouse", 
+        address: "Via dei Platani 9", 
+        city: "Topolinia",
+        code: 1188, 
+        district: "PD"});
 
     getAll (): Array<Address> {
-        return [DbMock.TAX1, DbMock.TAX2, DbMock.TAX3];
+        return [DbMock.ADDRESS1, DbMock.ADDRESS2, DbMock.ADDRESS3];
     }
     getItem (id: string): Address {
-        return DbMock.TAX1;
+        return id? DbMock.ADDRESS1: null;
     }
     addItem (item: Address): boolean {
-        return true;
+        return item? true: false;
     }
     editItem (item: Address): boolean {
-        return true;
+        return item? true : false;
     }
     deleteItem (id: string): boolean {
-        return true;
+        return id? true : false;
     }
 
 }

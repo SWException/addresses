@@ -45,14 +45,41 @@ provider:
           Resource: "*"
 
 functions:
-  addresses:
-    handler: "src/getAddresses.HANDLER"
+  getAddress:
+    handler: "src/handlers/getAddress.HANDLER"
+    events:
+      - http:
+          path: /addresses/{id}
+          method: GET
+          cors: true
+  getAddresses:
+    handler: "src/handlers/getAddresses.HANDLER"
     events:
       - http:
           path: /addresses
           method: GET
           cors: true
-
+  createAddress:
+    handler: "src/handlers/createAddress.HANDLER"
+    events:
+      - http:
+          path: /addresses
+          method: POST
+          cors: true
+  deleteAddress:
+    handler: "src/handlers/deleteAddress.HANDLER"
+    events:
+      - http:
+          path: /addresses/{id}
+          method: DELETE
+          cors: true
+  updateAddress:
+    handler: "src/handlers/updateAddress.HANDLER"
+    events:
+      - http:
+          path: /addresses/{id}
+          method: PATCH
+          cors: true
 resources:
   Resources:
     AddressesTable:

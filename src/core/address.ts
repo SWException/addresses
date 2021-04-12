@@ -22,4 +22,33 @@ export default class Address {
         this.code = data.code;
         this.district = data.district;
     }
+
+    public getId (): string {
+        return this.id;
+    }
+    public getUser (): string{
+        return this.user;
+    }
+    public getDescription (): string {
+        return this.description;
+    }
+    public getRecipientName (): string{
+        return this.recipientName;
+    }
+    public getRecipientSurname (): string {
+        return this.recipientSurname;
+    }
+    public getAddress (): string {
+        return this.address;
+    }
+    public getCity (): string {
+        return this.city;
+    }
+    public getCode (): number {
+        return this.code;
+    }
+    public getDistrict (): string {
+        return this.district;
+    }
+    
 }
