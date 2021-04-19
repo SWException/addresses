@@ -113,9 +113,18 @@ export class Dynamo implements Persistence {
     }
 
     public async deleteItem (id: string): Promise<boolean> {
-        console.log(id);
-        // TODO for DynamoDB Engineer: DA FARE TUTTO
-        return false;
+        const PARAMS = {
+            Key: {
+                id: id
+            },
+            TableName: Dynamo.TABLE_NAME,
+            IndexName: "id-index"
+        };
+
+       await Dynamo.DOCUMENT_CLIENT.delete(PARAMS).promise().catch(
+            (err) => { return err; }
+        );
+        return true;;      
     }
 
 }
