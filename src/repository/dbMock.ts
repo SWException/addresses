@@ -3,7 +3,7 @@ import { Persistence } from "./persistence";
 //TODO
 export class DbMock implements Persistence {
     private static readonly ADDRESS1 = new Address({id:"1", 
-        user: "pippo", 
+        userid: "pippo", 
         description: "home", 
         recipientName: "pippo", 
         recipientSurname: "pippo", 
@@ -12,7 +12,7 @@ export class DbMock implements Persistence {
         code: 6969, 
         district: "RO"});
     private static readonly ADDRESS2 = new Address({id:"2", 
-        user: "paperino", 
+        userid: "paperino", 
         description: "home", 
         recipientName: "paolino", 
         recipientSurname: "paperino", 
@@ -21,7 +21,7 @@ export class DbMock implements Persistence {
         code: 113, 
         district: "TV"});
     private static readonly ADDRESS3 = new Address({id:"3", 
-        user: "topolino", 
+        userid: "topolino", 
         description: "home", 
         recipientName: "mickey", 
         recipientSurname: "mouse", 
@@ -30,19 +30,19 @@ export class DbMock implements Persistence {
         code: 1188, 
         district: "PD"});
 
-    getAll (): Array<Address> {
+    public async getAll (): Promise<Array<Address>> {
         return [DbMock.ADDRESS1, DbMock.ADDRESS2, DbMock.ADDRESS3];
     }
-    getItem (id: string): Address {
+    public async getItem (id: string): Promise<Address> {
         return id? DbMock.ADDRESS1: null;
     }
-    addItem (item: Address): boolean {
+    public async addItem (item: Address): Promise<boolean> {
         return item? true: false;
     }
-    editItem (item: Address): boolean {
+    public async editItem (item: Address): Promise<boolean> {
         return item? true : false;
     }
-    deleteItem (id: string): boolean {
+    public async deleteItem (id: string): Promise<boolean> {
         return id? true : false;
     }
 
