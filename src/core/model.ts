@@ -37,7 +37,7 @@ export class Model {
         let result = false;
         if(data) {
             const ADDRESS = new Address(data);
-            result = this.DATABASE.addItem(ADDRESS);
+            result = await this.DATABASE.addItem(ADDRESS);
         }
         return result;
     }
@@ -49,7 +49,7 @@ export class Model {
      */
     public async getAddresses (token: string): Promise<JSON> {
         const USER = await this.USERS.checkUser(token);
-        const ADDRESSES: Array<Address> = this.DATABASE.getAll(USER);
+        const ADDRESSES: Array<Address> = await this.DATABASE.getAll(USER);
         if(ADDRESSES == null)
             return null;
         return JSON.parse(JSON.stringify(ADDRESSES));
