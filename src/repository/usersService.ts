@@ -13,8 +13,9 @@ export class UsersService implements Users {
                 return error.message;
             })
     }
+    
     public async checkUser (token: string): Promise<string> {
-        return await fetch(process.env.SERVICES + "/dev/users/check/" + token)
+        return await fetch(process.env.SERVICES + "/users/check/" + token)
             .then((response) => {
                 if(response.status != 200)
                     return null;
