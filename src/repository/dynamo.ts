@@ -24,32 +24,36 @@ export class Dynamo implements Persistence {
         return ADDRESSES;;
     }
 
-    public async getItem (ADDRESS_ID: string): Promise<Address> {
-        console.log(ADDRESS_ID);
+    public async getItem (USER: string, ADDRESS_ID: string): Promise<Address> {
+        console.log("getItem in dynamo:" + ADDRESS_ID);
         // TODO for DynamoDB Engineer: CONTROLLARE CHE FUNZIONI
         const PARAMS = {
-            TableName: Dynamo.TABLE_NAME,
-            IndexName: "id-index",
-            KeyConditionExpression: "id = :order",
-            ExpressionAttributeValues: {
-                ":order": ADDRESS_ID
+            Key: {
+                "userid": USER,
+                "id": ADDRESS_ID
             },
+            TableName: Dynamo.TABLE_NAME
         };
 
-        const DATA = await Dynamo.DOCUMENT_CLIENT.query(PARAMS).promise();
-        return new Address(DATA.Items.pop());
+        console.log("PARAMS:", PARAMS);
+        
+        const DATA = await Dynamo.DOCUMENT_CLIENT.get(PARAMS).promise();
+        console.log("getItem response:", DATA.Item);
+        if(DATA.Item)
+            return new Address(DATA.Item);
+        throw new Error("No item with id " + ADDRESS_ID + " for user " + USER);
     }
 
-    public async addItem (ITEM: Address): Promise<boolean> {
+    public async addItem (USER: string, ITEM: Address): Promise<boolean> {
         console.log(ITEM);
+        console.log(USER);
+        
         // TODO for DynamoDB Engineer: CONTROLLARE CHE FUNZIONI
         const PARAMS = {
             TableName: Dynamo.TABLE_NAME,
-            Key: {
-                userid: ITEM.getUser(),
-                id: ITEM.getId()
-            },
             Item: {
+                userid: USER,
+                id: ITEM.getId(),
                 description: ITEM.getDescription(),
                 recipientName: ITEM.getRecipientName(),
                 recipientSurname: ITEM.getRecipientSurname(),
@@ -57,21 +61,18 @@ export class Dynamo implements Persistence {
                 city: ITEM.getCity(),
                 code: ITEM.getCode(),
                 district: ITEM.getDistrict(),
-
             }
         };
+        console.log(PARAMS);
+        
 
         const DATA = await Dynamo.DOCUMENT_CLIENT.put(PARAMS)
             .promise()
-            .catch((err) => {
-                console.error("createOrder", err);
-                return false;
-            });
 
         return (DATA) ? true : false;
     }
 
-    public async editItem (ITEM: {[key: string]: any}): Promise<boolean> {
+    public async editItem (USER: string, ITEM: {[key: string]: any}): Promise<boolean> {
         console.log(ITEM);
         // TODO for DynamoDB Engineer: CONTROLLARE CHE FUNZIONI
         const VALUES = {};
@@ -92,13 +93,11 @@ export class Dynamo implements Persistence {
             }
         });
 
-        const OLD_ITEM = await this.getItem(ITEM.id);
-
         const PARAMS = {
             TableName: Dynamo.TABLE_NAME,
             Key: {
-                userid: OLD_ITEM.getUser(),
-                id: OLD_ITEM.getId()
+                userid: USER,
+                id: ITEM.getId()
             },
             UpdateExpression: expression,
             ExpressionAttributeValues: VALUES
@@ -112,19 +111,19 @@ export class Dynamo implements Persistence {
         return DATA;
     }
 
-    public async deleteItem (id: string): Promise<boolean> {
+    public async deleteItem(USER: string, id: string): Promise<boolean> {
         const PARAMS = {
             Key: {
+                userid: USER,
                 id: id
             },
-            TableName: Dynamo.TABLE_NAME,
-            IndexName: "id-index"
+            TableName: Dynamo.TABLE_NAME
         };
 
-       await Dynamo.DOCUMENT_CLIENT.delete(PARAMS).promise().catch(
-            (err) => { return err; }
+        await Dynamo.DOCUMENT_CLIENT.delete(PARAMS).promise().catch(
+            () => { return false; }
         );
-        return true;;      
+        return true;;
     }
 
 }

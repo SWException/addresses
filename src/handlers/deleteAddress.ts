@@ -9,12 +9,16 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     if (TOKEN == null) {
         return API_RESPONSES._400(null, "error", "missing authentication token");
     }
-    const ADDRESS_ID=event.pathParameters?.id;
+    const ADDRESS_ID = event.pathParameters?.id;
     
-    const MODEL: Model= Model.createModel();
-    const RESULT: Promise<boolean>= MODEL.deleteAddress(ADDRESS_ID,TOKEN)
-    if (RESULT) {
-        return API_RESPONSES._200(null, "success", " the address has been deleted" );
-    }
-    return API_RESPONSES._400(null, "error", "the address has not been deleted" )
+    const MODEL: Model = Model.createModel();
+    return await MODEL.deleteAddress(ADDRESS_ID, TOKEN)
+        .then(RESULT => {
+            if (RESULT) 
+                return API_RESPONSES._200(null, "success", "the address has been deleted");
+            return API_RESPONSES._400(null, "error", "the address has not been deleted");
+        })
+        .catch((err: Error) => {
+            return API_RESPONSES._400(null, "error", err.message);
+        });
 }

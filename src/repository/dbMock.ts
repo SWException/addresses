@@ -1,5 +1,5 @@
 import Address from "src/core/address";
-import { Persistence } from "./persistence";
+import { Persistence } from "src/repository/persistence";
 //TODO
 export class DbMock implements Persistence {
     private static readonly ADDRESS1 = new Address({id:"1", 
@@ -30,20 +30,20 @@ export class DbMock implements Persistence {
         code: 1188, 
         district: "PD"});
 
-    public async getAll (): Promise<Array<Address>> {
-        return [DbMock.ADDRESS1, DbMock.ADDRESS2, DbMock.ADDRESS3];
+    public async getAll (user:string): Promise<Array<Address>> {
+        return user? [DbMock.ADDRESS1, DbMock.ADDRESS2, DbMock.ADDRESS3] : null;
     }
-    public async getItem (id: string): Promise<Address> {
-        return id? DbMock.ADDRESS1: null;
+    public async getItem (user:string, id: string): Promise<Address> {
+        return id && user? DbMock.ADDRESS1: null;
     }
-    public async addItem (item: Address): Promise<boolean> {
-        return item? true: false;
+    public async addItem (user:string, item: Address): Promise<boolean> {
+        return item && user? true: false;
     }
-    public async editItem (item: Address): Promise<boolean> {
-        return item? true : false;
+    public async editItem (user: string, item: Address): Promise<boolean> {
+        return item && user? true : false;
     }
-    public async deleteItem (id: string): Promise<boolean> {
-        return id? true : false;
+    public async deleteItem (user: string, id: string): Promise<boolean> {
+        return id && user? true : false;
     }
 
 }

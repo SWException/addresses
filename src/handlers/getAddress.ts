@@ -9,12 +9,16 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     if (TOKEN == null) {
         return API_RESPONSES._400(null, "error", "missing authentication token");
     }
-    const ADDRESS_ID=event.pathParameters?.id;
+    const ADDRESS_ID = event.pathParameters?.id;
     
-    const MODEL: Model= Model.createModel();
-    const ADDRESS: {[key:string]:any}= MODEL.getAddress(ADDRESS_ID)
-    if (ADDRESS) {
-        return API_RESPONSES._200(ADDRESS, "success");
-    }
-    return API_RESPONSES._400(null, "error", "the address with this id doesn't exist" )
+    const MODEL: Model = Model.createModel();
+    return await MODEL.getAddress(ADDRESS_ID, TOKEN)
+        .then((ADDRESS) => {
+            if (ADDRESS)
+                return API_RESPONSES._200(ADDRESS, "success");
+            return API_RESPONSES._400(null, "error", "the address with this id doesn't exist");
+        })
+        .catch((err:Error) => {
+            return API_RESPONSES._400(null, "error", err.message);
+        });
 }

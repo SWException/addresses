@@ -11,10 +11,14 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
         return API_RESPONSES._400(null, "error", "missing authentication token");
     }
     
-    const MODEL: Model= Model.createModel();
-    const ADDRESSES: {[key:string]:any}= MODEL.getAddresses(TOKEN)
-    if (ADDRESSES) {
-        return API_RESPONSES._200(ADDRESSES, "success");
-    }
-    return API_RESPONSES._400(null, "success", "this user has no addresses" )
+    const MODEL: Model = Model.createModel();
+    return await MODEL.getAddresses(TOKEN)
+        .then(ADDRESSES => {
+            if (ADDRESSES)
+                return API_RESPONSES._200(ADDRESSES, "success");
+            return API_RESPONSES._400(null, "success", "this user has no addresses");
+        })
+        .catch((err: Error)=>{
+            return API_RESPONSES._400(null, "success", err.message);
+        });
 }

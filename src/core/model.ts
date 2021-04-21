@@ -1,6 +1,6 @@
 import { Persistence } from "src/repository/persistence"
 import { Dynamo } from "src/repository/dynamo"
-import Address from "./address";
+import Address from "src/core/address";
 import { DbMock } from "src/repository/dbMock";
 import { Users } from "src/repository/users";
 import { UsersService } from "src/repository/usersService";
@@ -17,7 +17,6 @@ export class Model {
 
     public static createModel (): Model {
         return new Model(new Dynamo(), new UsersService());
-        
     }
 
     public static createModelMock (): Model {
@@ -30,16 +29,14 @@ export class Model {
      * @returns the result of the operation
      */
     public async createAddress (data: {[key:string]: any}, token: string ): Promise<boolean> {
-        const IS_VENDOR = await this.USERS.checkVendor(token);
-        if (!IS_VENDOR){
-            throw new Error("invalid token");
-        }
-        let result = false;
+        const USER = await this.USERS.checkUser(token);
+        console.log("User: ", USER);
+        
         if(data) {
             const ADDRESS = new Address(data);
-            result = await this.DATABASE.addItem(ADDRESS);
+            return await this.DATABASE.addItem(USER, ADDRESS);
         }
-        return result;
+        return false;
     }
 
     /**
@@ -50,9 +47,9 @@ export class Model {
     public async getAddresses (token: string): Promise<JSON> {
         const USER = await this.USERS.checkUser(token);
         const ADDRESSES: Array<Address> = await this.DATABASE.getAll(USER);
-        if(ADDRESSES == null)
-            return null;
-        return JSON.parse(JSON.stringify(ADDRESSES));
+        if(ADDRESSES)
+            return JSON.parse(JSON.stringify(ADDRESSES));
+        return null;
     }
 
     /**
@@ -60,8 +57,10 @@ export class Model {
      * @param id the id of the address
      * @returns the address with the given id
      */
-    public getAddress (id: string): JSON {
-        const ADDRESS = this.DATABASE.getItem(id);
+    public async getAddress (id: string, token: string): Promise<JSON> {
+        const USER = await this.USERS.checkUser(token);
+        console.log("User: " + USER);
+        const ADDRESS = await this.DATABASE.getItem(USER, id);
         return JSON.parse(JSON.stringify(ADDRESS));
     }
 
@@ -71,14 +70,10 @@ export class Model {
      * @returns the result of the operation
      */
     public async deleteAddress (id: string, token: string): Promise<boolean> { 
-        const IS_VENDOR = await this.USERS.checkVendor(token);
-        if (!IS_VENDOR){
-            throw new Error("invalid token");
-        }
-        if(!id){
-            return false;
-        }
-        return this.DATABASE.deleteItem(id);
+        const USER = await this.USERS.checkUser(token);
+        if(id && USER)
+            return this.DATABASE.deleteItem(USER, id);
+        return false;
     }
 
     /**
@@ -88,12 +83,9 @@ export class Model {
      * @returns the result of the operation
      */
     public async updateAddress (token: string, data: JSON): Promise<boolean> {
-        const IS_VENDOR = await this.USERS.checkVendor(token);
-        if (!IS_VENDOR){
-            throw new Error("invalid token");
-        }
-        if(!data)
-            return false;
-        return this.DATABASE.editItem(data);
+        const USER = await this.USERS.checkUser(token);
+        if(data && USER)
+            return this.DATABASE.editItem(USER, data);
+        return false;
     }
 }

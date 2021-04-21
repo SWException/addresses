@@ -13,6 +13,8 @@ export default class Address {
     private readonly district: string;
 
     constructor (data: {[key:string]: any}) {
+        if(data?.userid)
+            this.user = data.userid;
         this.id = uuidv4();
         this.description = data.description;
         this.recipientName = data.recipientName;
