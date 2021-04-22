@@ -15,7 +15,12 @@ export default class Address {
     constructor (data: {[key:string]: any}) {
         if(data?.userid)
             this.user = data.userid;
-        this.id = uuidv4();
+        
+        if(data?.id)
+            this.id = data.id;
+        else
+            this.id = uuidv4();
+        
         this.description = data.description;
         this.recipientName = data.recipientName;
         this.recipientSurname = data.recipientSurname;
