@@ -20,7 +20,7 @@ test('schema', () => {
 });
 
 test('get Address', async () => {
-    const RES = await MODEL.getAddress("1");
+    const RES = await MODEL.getAddress("1", "token");
     expect(RES).toMatchSchema(ADDRESS_SCHEMA);
 });
 
@@ -30,7 +30,7 @@ test('get addresses', async () => {
 });
 
 test('create address', async () => {
-    const ADDR= await MODEL.getAddress("1");
+    const ADDR= await MODEL.getAddress("1", "token");
     const RES = await MODEL.createAddress(ADDR, "token");
     expect(RES).toBe(true);
 });
@@ -41,15 +41,13 @@ test('error create address', async () => {
 });
 
 test('error create address no token passed', async () => {
-    const ADDR= await MODEL.getAddress("1");
-    function test (){
-        return MODEL.createAddress(ADDR, null);
-    }
-    await expect(test).rejects.toThrow(Error);
+    const ADDR= await MODEL.getAddress("1", "token");
+    await expect(MODEL.createAddress(ADDR, null))
+        .rejects.toThrow(Error);
 });
 
 test('update address', async () => {
-    const ADDR = MODEL.getAddress("2")
+    const ADDR = await MODEL.getAddress("2", "token")
     const RES = await MODEL.updateAddress("token", ADDR);
     expect(RES).toBe(true);
 });
@@ -60,11 +58,9 @@ test('error update address', async () => {
 });
 
 test('error update address no token', async () => {
-    const ADDR = MODEL.getAddress("2")
-    function test (){
-        return MODEL.updateAddress(null, ADDR);
-    }
-    await expect(test).rejects.toThrow(Error);
+    const ADDR = await MODEL.getAddress("2", "token");
+    await expect(MODEL.updateAddress(null, ADDR))
+        .rejects.toThrow(Error);
 });
 
 test('delete address', async () => {
@@ -78,8 +74,6 @@ test('error delete address', async () => {
 });
 
 test('error delete address no token', async () => {
-    function test (){
-        return MODEL.deleteAddress("1", null);
-    }
-    await expect(test).rejects.toThrow(Error);
+    await expect(MODEL.deleteAddress("1", null))
+        .rejects.toThrow(Error);
 });
