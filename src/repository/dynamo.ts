@@ -53,7 +53,7 @@ export class Dynamo implements Persistence {
             TableName: Dynamo.TABLE_NAME,
             Item: {
                 userid: USER,
-                id: ITEM.getId(),
+                id: "" + ITEM.getId(),
                 description: ITEM.getDescription(),
                 recipientName: ITEM.getRecipientName(),
                 recipientSurname: ITEM.getRecipientSurname(),
