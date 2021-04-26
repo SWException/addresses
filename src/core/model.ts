@@ -31,7 +31,7 @@ export class Model {
     public async createAddress (data: {[key:string]: any}, token: string ): Promise<boolean> {
         const USER = await this.USERS.checkUser(token);
         console.log("User: ", USER);
-        data.userid = USER;
+        
         if(data) {
             const ADDRESS = new Address(data);
             return await this.DATABASE.addItem(USER, ADDRESS);
