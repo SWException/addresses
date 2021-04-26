@@ -31,7 +31,7 @@ export class Model {
     public async createAddress (data: {[key:string]: any}, token: string ): Promise<boolean> {
         const USER = await this.USERS.checkUser(token);
         console.log("User: ", USER);
-        
+        data.userid = USER;
         if(data) {
             const ADDRESS = new Address(data);
             return await this.DATABASE.addItem(USER, ADDRESS);
@@ -44,11 +44,11 @@ export class Model {
      * @param user the id of the user
      * @returns the addresses of the user with the given id
      */
-    public async getAddresses (token: string): Promise<JSON> {
+    public async getAddresses (token: string): Promise<any> {
         const USER = await this.USERS.checkUser(token);
         const ADDRESSES: Array<Address> = await this.DATABASE.getAll(USER);
         if(ADDRESSES)
-            return JSON.parse(JSON.stringify(ADDRESSES));
+            return ADDRESSES;
         return null;
     }
 
@@ -57,11 +57,10 @@ export class Model {
      * @param id the id of the address
      * @returns the address with the given id
      */
-    public async getAddress (id: string, token: string): Promise<JSON> {
+    public async getAddress (id: string, token: string): Promise<any> {
         const USER = await this.USERS.checkUser(token);
         console.log("User: " + USER);
-        const ADDRESS = await this.DATABASE.getItem(USER, id);
-        return JSON.parse(JSON.stringify(ADDRESS));
+        return this.DATABASE.getItem(USER, id);
     }
 
     /**
