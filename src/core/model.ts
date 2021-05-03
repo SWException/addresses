@@ -71,7 +71,7 @@ export class Model {
     public async deleteAddress (id: string, token: string): Promise<boolean> { 
         const USER = await this.USERS.checkUser(token);
         if(id && USER)
-            return this.DATABASE.deleteItem(USER, id);
+            return this.DATABASE.deleteItem(USER, id).catch(()=> false);
         return false;
     }
 

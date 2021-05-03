@@ -117,13 +117,13 @@ export class Dynamo implements Persistence {
                 userid: USER,
                 id: id
             },
-            TableName: Dynamo.TABLE_NAME
+            TableName: Dynamo.TABLE_NAME,
+            ReturnValues: "ALL_OLD"
         };
 
-        await Dynamo.DOCUMENT_CLIENT.delete(PARAMS).promise().catch(
-            () => { return false; }
-        );
-        return true;;
+        const RESP =  await Dynamo.DOCUMENT_CLIENT.delete(PARAMS).promise();
+            if(!RESP.Attributes) {throw new Error ('Cannot delete item that does not exist')}
+        return true;
     }
 
 }
