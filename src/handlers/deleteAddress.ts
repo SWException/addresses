@@ -9,7 +9,11 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     if (TOKEN == null) {
         return response(400, "missing auth");
     }
+    
     const ADDRESS_ID = event.pathParameters?.id;
+    if (ADDRESS_ID == null) {
+        return response(400, "missing id address");
+    }
     
     const MODEL: Model = Model.createModel();
     return await MODEL.deleteAddress(ADDRESS_ID, TOKEN)
