@@ -28,15 +28,19 @@ export class Model {
      * @param data the data of the address to add 
      * @returns the result of the operation
      */
-    public async createAddress (data: {[key:string]: any}, token: string ): Promise<boolean> {
+    public async createAddress (data: {[key:string]: any}, token: string ): Promise<string> {
         const USER = await this.USERS.checkUser(token);
         console.log("User: ", USER);
         
         if(data) {
             const ADDRESS = new Address(data);
-            return await this.DATABASE.addItem(USER, ADDRESS);
+            const RES = await this.DATABASE.addItem(USER, ADDRESS);
+            if(RES){
+                return ADDRESS.getId();
+            }
         }
-        return false;
+        
+        throw new Error("Error adding the address");
     }
 
     /**

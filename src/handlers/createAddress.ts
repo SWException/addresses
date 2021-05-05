@@ -11,10 +11,10 @@ export const HANDLER: APIGatewayProxyHandler = async (event) => {
     }
     
     const ADDRESS = JSON.parse(event?.body);
-    
+
     const MODEL: Model = Model.createModel();
     return await MODEL.createAddress(ADDRESS, TOKEN)
-        .then((result: boolean) =>
-            result ? response(200, "success") : response(400, "error"))
+        .then((result: string) =>
+            result ? response(200, "success", {id: result}) : response(400, "error"))
         .catch((err: Error) => response(400, err.message));
 }
