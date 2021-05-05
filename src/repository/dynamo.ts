@@ -21,7 +21,7 @@ export class Dynamo implements Persistence {
 
         const DATA = await Dynamo.DOCUMENT_CLIENT.query(PARAMS).promise();
         const ADDRESSES = DATA.Items.map((add)=> new Address(add));
-        return ADDRESSES;;
+        return ADDRESSES;
     }
 
     public async getItem (USER: string, ADDRESS_ID: string): Promise<Address> {
@@ -105,13 +105,15 @@ export class Dynamo implements Persistence {
         console.log(PARAMS);
 
         const DATA = await Dynamo.DOCUMENT_CLIENT.update(PARAMS).promise().then(() => true).catch(
-            (err) => { console.error(err);
-             return false; }
+            (err) => {
+                console.error(err);
+                return false; 
+            }
         );
         return DATA;
     }
 
-    public async deleteItem(USER: string, id: string): Promise<boolean> {
+    public async deleteItem (USER: string, id: string): Promise<boolean> {
         const PARAMS = {
             Key: {
                 userid: USER,
