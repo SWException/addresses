@@ -32,12 +32,12 @@ test('get addresses', async () => {
 test('create address', async () => {
     const ADDR= await MODEL.getAddress("1", "token");
     const RES = await MODEL.createAddress(ADDR, "token");
-    expect(RES).toBe(true);
+    expect(RES).not.toBe(false);
 });
 
 test('error create address', async () => {
-    const RES = await MODEL.createAddress(null, "token");
-    expect(RES).toBe(false);
+    await expect(MODEL.createAddress(null, "token"))
+        .rejects.toThrow(Error);
 });
 
 test('error create address no token passed', async () => {
