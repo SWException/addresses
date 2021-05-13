@@ -1,6 +1,5 @@
 import response from 'schemas/response.json';
 import addresses from 'schemas/addresses.json';
-import Ajv from 'ajv';
 import { JSONSchema7 } from 'json-schema';
 
 export const SCHEMAS = {
@@ -16,10 +15,4 @@ export function setFormats (ajv): void {
 
     ajv.addFormat("int64", { type: "number", validate: /^\d+$/ });
     ajv.addFormat("uri", { type: "string" });
-}
-
-export function buildAjv (): Ajv {
-    const AJV: Ajv = new Ajv(SCHEMAS);
-    setFormats(AJV);
-    return AJV;
 }

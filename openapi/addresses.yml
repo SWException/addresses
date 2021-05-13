@@ -13,7 +13,7 @@ get:
       required: true
   responses:
     200:
-      description: "elenco di tutte gli indirizzi"
+      description: "address list"
       content:
         application/json:
           schema:
@@ -25,6 +25,7 @@ get:
                 [
                   {
                     id: "1",
+                    user: "mario",
                     description: "Indirizzo Casa",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -35,6 +36,7 @@ get:
                   },
                   {
                     id: "2",
+                    user: "mario",
                     description: "Indirizzo Ufficio",
                     recipientName: "Mario",
                     recipientSurname: "Rossi",
@@ -45,6 +47,7 @@ get:
                   },
                   {
                     id: "3",
+                    user: "mario",
                     description: "Indirizzo Bar",
                     recipientName: "Andrea",
                     recipientSurname: "Giallo",
@@ -56,7 +59,7 @@ get:
                 ]
             }
     400:
-      description: "errore nella richiesta"
+      description: "request error"
       content:
         application/json:
           schema:
@@ -84,6 +87,7 @@ post:
           $ref: "../schemas/addresses.json#/insertAddress"
         example:
           {
+            user: "andrea",
             description: "Indirizzo Bar",
             recipientName: "Andrea",
             recipientSurname: "Giallo",
@@ -94,7 +98,7 @@ post:
           }
   responses:
     200:
-      description: Indirizzo inserito con successo
+      description: Address inserted
       content:
         application/json:
           schema:
@@ -102,7 +106,7 @@ post:
           example:
             { status: "success", message: "indirizzo inserito con successo" }
     400:
-      description: Errore inserimento indirizzo
+      description: Address not inserted
       content:
         application/json:
           schema:
